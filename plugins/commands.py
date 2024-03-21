@@ -41,7 +41,7 @@ async def start(client, message):
             InlineKeyboardButton("Hᴇʟᴩ 🕸️", callback_data="help"),
             InlineKeyboardButton("Aʙᴏᴜᴛ ✨", callback_data="about")
         ],[      
-            InlineKeyboardButton("DEV🔥", url="https://t.me/INSIGHT_ASSISTANT_BOT"),
+            InlineKeyboardButton("SUPPORT", url="https://t.me/Luci_Bot_Support"),
             InlineKeyboardButton("OWNER✨", url="https://t.me/LuciG0D")
         ]
       ]
