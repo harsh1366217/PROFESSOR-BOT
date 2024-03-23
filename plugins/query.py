@@ -432,11 +432,15 @@ async def cb_handler(client: Client, query: CallbackQuery):
             InlineKeyboardButton("➕️ Aᴅᴅ Mᴇ Tᴏ Yᴏᴜʀ Cʜᴀᴛ ➕", url=f"http://t.me/{temp.U_NAME}?startgroup=true")
             ],[
             InlineKeyboardButton("Sᴇᴀʀᴄʜ 🔎", switch_inline_query_current_chat=''), 
-            InlineKeyboardButton("Cʜᴀɴɴᴇʟ 🔈", url="https://t.me/mkn_bots_updates")
+            InlineKeyboardButton("Cʜᴀɴɴᴇʟ 🔈", url="https://t.me/LUCI_MOVIES")
             ],[      
             InlineKeyboardButton("Hᴇʟᴩ 🕸️", callback_data="help"),
             InlineKeyboardButton("Aʙᴏᴜᴛ ✨", callback_data="about")
-        ]]
+        ],[      
+            InlineKeyboardButton("SUPPORT", url="https://t.me/Luci_Bot_Support"),
+            InlineKeyboardButton("OWNER✨", url="https://t.me/LuciG0D")
+        ]
+                  ]
         await query.edit_message_media(InputMediaPhoto(random.choice(PICS), START_MESSAGE.format(user=query.from_user.mention, bot=client.mention), enums.ParseMode.HTML), reply_markup=InlineKeyboardMarkup(buttons))
        
     elif query.data == "help":
