@@ -2,7 +2,7 @@ import logging, os, re, asyncio, requests, aiohttp
 from pyrogram.errors import InputUserDeactivated, UserNotParticipant, FloodWait, UserIsBlocked, PeerIdInvalid                             
 from pyrogram.types import Message, InlineKeyboardButton
 from pyrogram import filters, enums
-from info import AUTH_CHANNEL, LONG_IMDB_DESCRIPTION, MAX_LIST_ELM, SHORT_URL, SHORT_API
+from info import AUTH_CHANNEL, LONG_IMDB_DESCRIPTION, AUTH_CHANNEL_2, MAX_LIST_ELM, SHORT_URL, SHORT_API
 from imdb import Cinemagoer
 from typing import Union, List
 from datetime import datetime, timedelta
@@ -33,18 +33,29 @@ class temp(object):
     PM_SPELL = {}
     GP_SPELL = {}
 
-async def is_subscribed(bot, query):
-    try:
-        user = await bot.get_chat_member(AUTH_CHANNEL, query.from_user.id)
-    except UserNotParticipant:
-        pass
-    except Exception as e:
-        print(e)
-    else:
-        if user.status != enums.ChatMemberStatus.BANNED:
-            return True
-    return False
+async def is_subscribed(bot, query=None, userid=None):
+    subscribed_to_all = True
 
+    for channel_id in [AUTH_CHANNEL, AUTH_CHANNEL_2]:
+        try:
+            if userid is None and query is not None:
+                user = await bot.get_chat_member(channel_id, query.from_user.id)
+            else:
+                user = await bot.get_chat_member(channel_id, int(userid))
+        except ChatAdminRequired:
+            subscribed_to_all = False
+            try:
+                invite_link = await bot.export_chat_invite_link(channel_id)
+                await bot.send_message(chat_id=userid, text=invite_link)
+            except Exception:
+                pass
+        except Exception:
+            subscribed_to_all = False
+        else:
+            if user.status == "kicked":
+                subscribed_to_all = False
+
+    return subscribed_to_all
 
 async def get_poster(query, bulk=False, id=False, file=None):
     imdb = Cinemagoer() 
